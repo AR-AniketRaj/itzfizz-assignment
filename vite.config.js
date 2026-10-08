@@ -4,5 +4,5 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: "./", // relative asset paths → works on GitHub Pages without extra setup
+  base: "./", 
 });

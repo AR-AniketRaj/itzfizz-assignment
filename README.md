@@ -71,7 +71,3 @@ as the car steers toward each one it pops to full brightness and a connector lin
 This keeps the requirement intact while tying the stats into the scroll story that ends
 with the crash. The load delay is set in `src/animation/intro.js` (`STATS_START`, `STATS_DELAY`).
 
-## Tuning
-
-Almost everything you'd want to change is in `src/config.js`: stat values/positions, scroll
-length, wobble amount, and headlight fade times.
