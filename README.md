@@ -14,14 +14,10 @@ npm run dev       # http://localhost:5173
 npm run build     # production build in /dist
 ```
 
-## Deploy to GitHub Pages
+## Deployment
 
-```bash
-npm run deploy    # builds and publishes /dist to the gh-pages branch
-```
-
-Then in the repo: **Settings → Pages → Branch: `gh-pages` / root**.
-(`vite.config.js` uses `base: "./"`, so no repo-name configuration is needed.)
+This project is deployed and hosted on **Vercel**. 
+Because it uses Vite, Vercel automatically detects the framework and builds the project seamlessly from the repository. No special build scripts are required.
 
 ## Structure
 

@@ -9,8 +9,8 @@ export const HEADLINE_WORDS = ["WELCOME", "ITZFIZZ"];
 export const STATS = [
   { id: "pickup-a", value: 58, label: "Increase in pick up point use", side: "left", at: 0.12 },
   { id: "calls-a", value: 23, label: "Decrease in customer phone calls", side: "right", at: 0.38 },
-  { id: "pickup-b", value: 27, label: "Increase in pick up point use", side: "left", at: 0.64 },
-  { id: "calls-b", value: 40, label: "Decrease in customer phone calls", side: "right", at: 0.9 },
+  { id: "pickup-b", value: 27, label: "Boost in repeat customer rate", side: "left", at: 0.64 },
+  { id: "calls-b", value: 40, label: "Reduction in support tickets", side: "right", at: 0.9 },
 ];
 
 export const DRIVE = {

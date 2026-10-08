@@ -10,7 +10,7 @@ export default function Finale() {
           Smooth to the last mile.
         </h2>
         <p data-finale-item className="mx-auto mb-8 max-w-[40ch] text-[clamp(1rem,1.6vw,1.2rem)] leading-[1.55] text-[#0b0e08]/70">
-          Every number above moved because the journey got easier.
+          Better results happen when the ride is frictionless.
         </p>
         <button
           data-finale-item
