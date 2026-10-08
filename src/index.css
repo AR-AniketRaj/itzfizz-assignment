@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+ * Design tokens  →  generate Tailwind utilities (bg-ground, text-accent,
+ * font-display, fill-car …)
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-ground: #090b0a;
+  --color-ground-deep: #141815;
+  --color-asphalt: #1a1e1c;
+  --color-ink: #f2f4ee;
+  --color-ink-soft: #8f988f;
+  --color-car: #eceee9;
+  --color-car-dark: #aeb4ab;
+  --color-accent: #c8ff2e;
+
+  --font-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --font-body: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+:root {
+  --road-w: clamp(120px, 22vw, 300px);
+  --car-w: clamp(54px, 8vw, 104px);
+}
+
+html,
+body {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ------------------------------------------------------------------
+ * Pieces that need gradients, masks, clip-paths or keyframes.
+ * Everything else is styled with Tailwind utilities in the components.
+ * ------------------------------------------------------------------ */
+
+/* Hero backdrop: soft green glow + faint paving seams */
+.hero-bg {
+  background:
+    radial-gradient(110% 70% at 50% 0%, #1b231a 0%, transparent 65%),
+    var(--color-ground);
+}
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--color-ground-deep) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-ground-deep) 1px, transparent 1px);
+  background-size: 120px 120px;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Road: rises out of the dark at the top, runs off the bottom edge */
+.road {
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.4), transparent 22%, transparent 78%, rgb(0 0 0 / 0.4)),
+    linear-gradient(to bottom, #0f1210 0%, var(--color-asphalt) 38%, #151917 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgb(0 0 0 / 0.55) 6%, #000 16%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, rgb(0 0 0 / 0.55) 6%, #000 16%, #000 100%);
+}
+
+/* Two dashed lane lines; the element is taller than the road so it can travel */
+.road-lanes {
+  height: calc(100% + 640px);
+  background-image:
+    repeating-linear-gradient(to bottom, rgb(255 255 255 / 0.55) 0 36px, transparent 36px 80px),
+    repeating-linear-gradient(to bottom, rgb(255 255 255 / 0.55) 0 36px, transparent 36px 80px);
+  background-size: 3px 100%, 3px 100%;
+  background-position: 17% 0, 83% 0;
+  background-repeat: no-repeat;
+}
+
+/* Neon trail the car leaves behind */
+.trail {
+  top: calc(var(--start) * 1vh);
+  height: calc((var(--end) - var(--start)) * 1vh);
+  background: linear-gradient(to bottom, transparent, var(--color-accent) 18%, var(--color-accent));
+  box-shadow: 0 0 18px 2px color-mix(in srgb, var(--color-accent) 55%, transparent);
+}
+
+/* Crash barrier – --bt is set from JS to the exact point the car's nose stops */
+.barrier {
+  top: var(--bt, 90vh);
+  width: calc(var(--road-w) + 36px);
+  height: clamp(18px, 3.4vh, 34px);
+  background: repeating-linear-gradient(-45deg, var(--color-accent) 0 12px, #101311 12px 24px);
+  box-shadow: 0 0 24px rgb(200 255 46 / 0.3);
+}
+
+/* Impact effects share the same origin point */
+.impact-point {
+  left: 50%;
+  top: var(--bt, 90vh);
+}
+.flash {
+  background: radial-gradient(
+    circle at 50% var(--bt, 90vh),
+    rgb(200 255 46 / 0.55),
+    rgb(200 255 46 / 0.12) 45%,
+    transparent 70%
+  );
+}
+.spark {
+  box-shadow: 0 0 8px var(--color-accent);
+}
+
+/* Car */
+.car-rig {
+  top: calc(var(--start) * 1vh);
+  width: var(--car-w);
+  aspect-ratio: 120 / 260;
+}
+.car-shadow {
+  background: rgb(200 255 46 / 0.28);
+  filter: blur(16px);
+  transform: translate(10%, 4%);
+  animation: breathe 4.5s ease-in-out infinite; /* slow, continuous glow */
+}
+.car-beam {
+  background:
+    radial-gradient(ellipse 42% 50% at 50% 10%, rgb(255 251 230 / 0.8), rgb(255 251 230 / 0) 72%),
+    linear-gradient(to bottom, rgb(255 247 214 / 0.6) 0%, rgb(255 247 214 / 0.28) 40%, rgb(255 247 214 / 0) 100%);
+  clip-path: polygon(36% 0, 64% 0, 100% 100%, 0 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 26%, #000 74%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 26%, #000 74%, transparent);
+  opacity: 0; /* off until the car moves – driven by useCarInstruments */
+}
+.car-lamps {
+  filter: drop-shadow(0 0 5px #fff7d6) drop-shadow(0 0 12px rgb(255 247 214 / 0.8));
+}
+@keyframes breathe {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+
+/* Stat position along the road: --at is the drive progress (0–1) */
+.stat {
+  top: calc((var(--start) + (var(--end) - var(--start)) * var(--at)) * 1vh);
+}
+
+/* Scroll hint */
+.hint-line {
+  transform-origin: 50% 0;
+  animation: hint 1.8s ease-in-out infinite;
+}
+@keyframes hint {
+  0% { transform: scaleY(0); }
+  50% { transform: scaleY(1); }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* Finale: starts fully clipped; GSAP opens a circle from the impact point */
+.finale {
+  clip-path: circle(0px at 50% 90%);
+}
+
+/* ------------------------------------------------------------------
+ * Reduced motion: static layout – no pin, no crash
+ * ------------------------------------------------------------------ */
+.reduce { height: auto; }
+.reduce [data-stage] { position: relative; height: 100svh; }
+.reduce .finale { position: relative; clip-path: none; min-height: 70vh; padding: 14vh 6vw; pointer-events: auto; }
+.reduce .hint-line,
+.reduce .car-shadow { animation: none; }
