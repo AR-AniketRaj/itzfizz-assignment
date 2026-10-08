@@ -1,5 +1,7 @@
 # Itzfizz – Scroll-Driven Hero
 
+🚀 **[View Live Demo on Vercel](https://itzfizz-assignment-iota.vercel.app/)**
+
 A pinned hero where scrolling drives a car down a road. Stats pop up as the car steers toward
 them, the headlights switch on when the car moves and off when it stops, and at the end the car
 crashes into a barrier and the next page opens from the impact point.
@@ -16,7 +18,9 @@ npm run build     # production build in /dist
 
 ## Deployment
 
-This project is deployed and hosted on **Vercel**. 
+🌍 **Live Link:** [https://itzfizz-assignment-iota.vercel.app/](https://itzfizz-assignment-iota.vercel.app/)
+
+This project is deployed and hosted on **Vercel**.
 Because it uses Vite, Vercel automatically detects the framework and builds the project seamlessly from the repository. No special build scripts are required.
 
 ## Structure
@@ -49,11 +53,11 @@ src/
 
 The scrolled timeline is 2 units long and scrubbed to scroll progress (`scrub: 1.5` gives it inertia):
 
-| Timeline | Phase |
-|---|---|
-| 0 → 1 | Car drives; lane dashes rush past; neon trail grows; each stat lights up (pops to full brightness) as the car steers toward it |
-| 1 → 1.12 | Crash: bump + rebound, squash, soft glow, shockwave, sparks, small screen shake |
-| 1.12 → 2 | A circular clip-path grows from the impact point and reveals the finale |
+| Timeline | Phase                                                                                                                          |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 0 → 1    | Car drives; lane dashes rush past; neon trail grows; each stat lights up (pops to full brightness) as the car steers toward it |
+| 1 → 1.12 | Crash: bump + rebound, squash, soft glow, shockwave, sparks, small screen shake                                                |
+| 1.12 → 2 | A circular clip-path grows from the impact point and reveals the finale                                                        |
 
 Performance notes: motion uses `transform` / `opacity` only; per-frame updates go through
 `gsap.quickTo` / `quickSetter`, and the speedometer writes to the DOM directly so React doesn't
@@ -66,4 +70,3 @@ Per the brief, the statistics animate in **on page load, one by one with a short
 as the car steers toward each one it pops to full brightness and a connector line is drawn.
 This keeps the requirement intact while tying the stats into the scroll story that ends
 with the crash. The load delay is set in `src/animation/intro.js` (`STATS_START`, `STATS_DELAY`).
-
